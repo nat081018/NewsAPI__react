@@ -48,24 +48,22 @@ class App extends Component {
       isSortReverse: false,
     };
 
-    this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
-    this.setSearchTopStories = this.setSearchTopStories.bind(this);
-    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
-    this.onSearchChange = this.onSearchChange.bind(this);
-    this.onSearchSubmit = this.onSearchSubmit.bind(this);
-    this.onDismiss = this.onDismiss.bind(this);
+    // this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
+    // this.setSearchTopStories = this.setSearchTopStories.bind(this);
+    // this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
+    // this.onSearchChange = this.onSearchChange.bind(this);
+    // this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    // this.onDismiss = this.onDismiss.bind(this);
   }
 
-  needsToSearchTopStories(searchTerm) {
-    return !this.state.results[searchTerm];
-  }
+  needsToSearchTopStories = (searchTerm) => !this.state.results[searchTerm];
 
-  setSearchTopStories(result) {
+  setSearchTopStories = (result) => {
     const { hits, page } = result;
     this.setState(updateSearchTopStoriesState(hits, page));
-  }
+  };
 
-  fetchSearchTopStories(searchTerm, page = 0) {
+  fetchSearchTopStories = (searchTerm, page = 0) => {
     this.setState({ isLoading: true });
 
     axios(
@@ -73,7 +71,7 @@ class App extends Component {
     )
       .then((result) => this.setSearchTopStories(result.data))
       .catch((error) => this._isMounted && this.setState({ error }));
-  }
+  };
 
   componentDidMount() {
     this._isMounted = true;
@@ -87,11 +85,9 @@ class App extends Component {
     this._isMounted = false;
   }
 
-  onSearchChange(event) {
-    this.setState({ searchTerm: event.target.value });
-  }
+  onSearchChange = (event) => this.setState({ searchTerm: event.target.value });
 
-  onSearchSubmit(event) {
+  onSearchSubmit = (event) => {
     const { searchTerm } = this.state;
     this.setState({ searchKey: searchTerm });
 
@@ -100,9 +96,9 @@ class App extends Component {
     }
 
     event.preventDefault();
-  }
+  };
 
-  onDismiss(id) {
+  onDismiss = (id) => {
     const { searchKey, results } = this.state;
     const { hits, page } = results[searchKey];
 
@@ -115,7 +111,7 @@ class App extends Component {
         [searchKey]: { hits: updatedHits, page },
       },
     });
-  }
+  };
 
   render() {
     const { searchTerm, results, searchKey, error, isLoading } = this.state;
